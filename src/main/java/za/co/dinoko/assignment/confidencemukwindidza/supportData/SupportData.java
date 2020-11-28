@@ -20,7 +20,7 @@ public class SupportData {
         FileInputStream fileInputStream = new FileInputStream(file);
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fileInputStream);
-        XSSFSheet xssfSheet= xssfWorkbook.getSheetAt(0);
+        XSSFSheet xssfSheet = xssfWorkbook.getSheetAt(0);
 
         Iterator<Row> rowIterator = xssfSheet.iterator();
         rowIterator.next();
@@ -33,15 +33,39 @@ public class SupportData {
 
             Iterator<Cell> cellIterator = row.cellIterator();
 
-            // Setting the planetNode from file
+            // Setting the planetNode
             Cell cell = cellIterator.next();
             planet.setPlanetNode(cell.toString());
 
-            // Setting the planetName from file
+            // Setting the planetName
             cell = cellIterator.next();
             planet.setPlanetName(cell.toString());
 
         }
+
+        xssfSheet = xssfWorkbook.getSheetAt(1);
+
+        rowIterator = xssfSheet.iterator();
+        rowIterator.next();
+
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+
+            Iterator<Cell> cellIterator = row.cellIterator();
+
+            // Setting RouteID
+            Cell cell = cellIterator.next();
+
+            // Setting Planet Origin
+            cell = cellIterator.next();
+
+            // Setting Planet Destination
+            cell = cellIterator.next();
+
+            // Setting Distance (Light Years)
+            cell = cellIterator.next();
+        }
+
         xssfWorkbook.close();
         fileInputStream.close();
     }
