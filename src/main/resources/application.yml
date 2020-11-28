@@ -1,26 +1,18 @@
 
-
 spring:
-  main:
-    banner-mode: off
   datasource:
-    url: jdbc:h2:file:./src/main/resources/database/interstellerdb  #/Users/tlmatjuda/workspace/sides/interseller/src/main/resources/database
+    url: jdbc:h2:file:./src/main/resources/database/interstellerdb
     username: sa
     password:
-    driverClassName: org.h2.Driver
-#    initialization-mode: always   # Set this up in order to run the database scripts automatically on startup.
-
-  # H2 Database Settings
+    driver-class-name: org.h2.Driver
+    initialization-mode: always   # Set this up in order to run the database scripts automatically on startup.
   h2:
     console:
-      path: /interstellerdb
+      path: /h2
       enabled: true
       settings:
         web-allow-others: true    # H2 Console throwing a error webAllowOthers in H2 database
-
-  # JPA Section here
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
-#    show-sql: true
