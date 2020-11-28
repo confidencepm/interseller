@@ -3,16 +3,20 @@ package za.co.dinoko.assignment.confidencemukwindidza.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "PLANET")
+@Table( name = "PLANET")
 public class Planet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    @Column(name = "name")
-    private String planetName;
-    @Column(name = "node")
+    private Long id;
+
+    @Column( name = "node")
     private String planetNode;
+
+    @Column( name = "name")
+    private String planetName;
+
+
 
     public long getId() {
         return id;

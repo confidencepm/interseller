@@ -16,7 +16,7 @@ public class SupportData {
     public static void readingFile() throws IOException {
 
         // Setting the path to excel file with planets data
-        File file = new File("src/main/resources/static/SupportData-V1.xlsx");
+        File file = new File("src/main/resources/files/SupportData-V1.xlsx");
         FileInputStream fileInputStream = new FileInputStream(file);
 
         XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fileInputStream);
