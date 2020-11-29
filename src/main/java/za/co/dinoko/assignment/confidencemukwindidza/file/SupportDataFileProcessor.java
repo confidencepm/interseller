@@ -1,7 +1,10 @@
 package za.co.dinoko.assignment.confidencemukwindidza.file;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.ExcelSheetNames;
-import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetContants;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetConstants;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
@@ -114,10 +117,10 @@ public class SupportDataFileProcessor {
                 row.forEach( cell -> {
                     int columnIndex = cell.getColumnIndex();
 
-                    if ( PlanetContants.EXCEL_COLUMN_PLANET_NODE == columnIndex)
+                    if ( PlanetConstants.EXCEL_COLUMN_PLANET_NODE == columnIndex)
                         planet.setPlanetNode( dataFormatter.formatCellValue(cell).trim());
 
-                    if ( PlanetContants.EXCEL_COLUMN_PLANET_NAME == columnIndex)
+                    if ( PlanetConstants.EXCEL_COLUMN_PLANET_NAME == columnIndex)
                         planet.setPlanetName( dataFormatter.formatCellValue(cell).trim());
                 });
 
