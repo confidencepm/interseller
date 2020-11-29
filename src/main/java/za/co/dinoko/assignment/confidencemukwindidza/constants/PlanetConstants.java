@@ -7,7 +7,7 @@ package za.co.dinoko.assignment.confidencemukwindidza.constants;
  * <a href="mailto:tl.matjuda@gmail.com">Personal GMail</a>
  */
 
-public interface PlanetContants {
+public interface PlanetConstants {
 
     Integer EXCEL_COLUMN_PLANET_NODE = 0;
     Integer EXCEL_COLUMN_PLANET_NAME = 1;
