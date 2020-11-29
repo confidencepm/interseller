@@ -1,6 +1,6 @@
 package za.co.dinoko.assignment.confidencemukwindidza.model;
 
-public class Galaxy {
+public class Routes {
 
     private int routeId;
     private String planetOrigin;

@@ -4,7 +4,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import za.co.dinoko.assignment.confidencemukwindidza.model.Galaxy;
+import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
 
 import java.io.File;
@@ -52,26 +52,26 @@ public class SupportData {
         rowIterator.next();
 
         while (rowIterator.hasNext()) {
-            Galaxy galaxy = new Galaxy();
+            Routes routes = new Routes();
 
             Row row = rowIterator.next();
             Iterator<Cell> cellIterator = row.cellIterator();
 
             // Setting RouteID
             Cell cell = cellIterator.next();
-            galaxy.setRouteId((int)Double.parseDouble(cell.toString()));
+            routes.setRouteId((int)Double.parseDouble(cell.toString()));
 
             // Setting Planet Origin
             cell = cellIterator.next();
-            galaxy.setPlanetOrigin(cell.toString());
+            routes.setPlanetOrigin(cell.toString());
 
             // Setting Planet Destination
             cell = cellIterator.next();
-            galaxy.setPlanetDestination(cell.toString());
+            routes.setPlanetDestination(cell.toString());
 
             // Setting Distance (Light Years)
             cell = cellIterator.next();
-            galaxy.setDistanceInLightYears(Double.parseDouble(cell.toString()));
+            routes.setDistanceInLightYears(Double.parseDouble(cell.toString()));
 
         }
 
