@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.ExcelSheetNames;
-import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetContants;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetConstants;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesConstants;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
+import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class SupportDataFile {
 
     private List<Planet> planetList = new ArrayList<>();
     private DataFormatter dataFormatter = new DataFormatter();
+    private List<Routes> routesList = new ArrayList<>();
 
 
     /**
@@ -47,6 +50,7 @@ public class SupportDataFile {
                 supportExcelFileResource.getFilename(), workbook.getNumberOfSheets());
 
         extractPlanets( workbook);
+        extractRoutes( workbook);
     }
 
 
@@ -73,10 +77,10 @@ public class SupportDataFile {
                 row.forEach( cell -> {
                     int columnIndex = cell.getColumnIndex();
 
-                    if ( PlanetContants.EXCEL_COLUMN_PLANET_NODE == columnIndex)
+                    if ( PlanetConstants.EXCEL_COLUMN_PLANET_NODE == columnIndex)
                         planet.setPlanetNode( dataFormatter.formatCellValue(cell).trim());
 
-                    if ( PlanetContants.EXCEL_COLUMN_PLANET_NAME == columnIndex)
+                    if ( PlanetConstants.EXCEL_COLUMN_PLANET_NAME == columnIndex)
                         planet.setPlanetName( dataFormatter.formatCellValue(cell).trim());
                 });
 
@@ -93,9 +97,51 @@ public class SupportDataFile {
         return planetList;
     }
 
+    private List<Routes> extractRoutes(Workbook workbook) {
+
+        log.info("Processing the sheet \"{}\"", ExcelSheetNames.ROUTES);
+        Sheet routesSheet = workbook.getSheet(ExcelSheetNames.ROUTES);
+
+        routesSheet.forEach( row -> {
+            Routes routes = new Routes();
+
+            if (row.getRowNum() != 0) {
+
+                row.forEach( cell -> {
+                    int columnIndex = cell.getColumnIndex();
+
+                    if ( RoutesConstants.EXCEL_COLUMN_ROUTE_ID == columnIndex)
+                        routes.setRouteId((int) Double.parseDouble(dataFormatter.formatCellValue(cell).trim()));
+
+                    if ( RoutesConstants.EXCEL_COLUMN_PLANET_ORIGIN == columnIndex)
+                        routes.setPlanetOrigin( dataFormatter.formatCellValue(cell).trim());
+
+                    if ( RoutesConstants.EXCEL_COLUMN_PLANET_DESTINATION == columnIndex)
+                        routes.setPlanetDestination( dataFormatter.formatCellValue(cell).trim());
+
+                    if ( RoutesConstants.EXCEL_COLUMN_DISTANCE == columnIndex)
+                        routes.setDistanceInLightYears(Double.parseDouble(dataFormatter.formatCellValue(cell).trim()));
+                });
+
+                routesList.add( routes);
+            }
+        });
+
+        if ( CollectionUtils.isEmpty( routesList)) {
+            throw new RuntimeException("extractRoutes() - No records found while reading the Excel file");
+        }
+
+        log.info("Extracted a total of {} records from the excel file", routesList.size());
+        return routesList;
+    }
+
 
 
     public List<Planet> getPlanetList() {
         return planetList;
+    }
+
+    public List<Routes> getRoutesList() {
+        return routesList;
     }
 }

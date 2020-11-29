@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
+import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 
+import javax.persistence.Table;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +19,7 @@ public class SupportDataFileTest {
     private SupportDataFile supportDataFile;
 
     private List<Planet> planetList;
+    private List<Routes> routesList;
 
 
     @Test
@@ -34,6 +37,12 @@ public class SupportDataFileTest {
         assertEquals( "Mercury", mercury.getPlanetName());
     }
 
+    @Test
+    public void testThatWeCanReadRoutesInput() throws Exception {
+        routesList = supportDataFile.getRoutesList();
+        assertNotNull( routesList);
+        assertTrue( routesList.size() > 0);
+    }
 
     private Planet findPlanetByNode(String planetNodeArg) {
         return planetList.stream().filter( planet -> planet.getPlanetNode().equals(planetNodeArg)).findFirst().get();

@@ -1,11 +1,25 @@
 package za.co.dinoko.assignment.confidencemukwindidza.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ROUTES")
 public class Routes {
 
+    @Column(name = "id")
     private int routeId;
+
+    @Column(name = "planet_origin")
     private String planetOrigin;
+
+    @Column(name = "planet_destination")
     private String planetDestination;
+
+    @Column(name = "distance")
     private double distanceInLightYears;
+
 
     public int getRouteId() {
         return routeId;
