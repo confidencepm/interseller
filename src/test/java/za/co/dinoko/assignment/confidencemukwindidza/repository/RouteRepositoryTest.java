@@ -39,7 +39,7 @@ public class RouteRepositoryTest {
     }
 
     @Test
-    public void testThatWeCanFindRouteByID() {
+    public void testThatWeCanFindRouteByID() throws Exception {
         routeRepository.saveAll( supportDataFileProcessor.getRouteList());
         Optional<Routes> foundRouteById = routeRepository.findById(20);
 
