@@ -9,11 +9,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.ExcelSheetNames;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetContants;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
+import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author: Thabo Lebogang Matjuda
@@ -31,6 +34,7 @@ public class SupportDataFile {
     private Resource supportExcelFileResource;
 
     private List<Planet> planetList = new ArrayList<>();
+    private List<Routes> routeList = new ArrayList<>();
     private DataFormatter dataFormatter = new DataFormatter();
 
 
@@ -47,6 +51,26 @@ public class SupportDataFile {
                 supportExcelFileResource.getFilename(), workbook.getNumberOfSheets());
 
         extractPlanets( workbook);
+        extractRoutes( workbook);
+    }
+
+
+    public List<Planet> getPlanetList() {
+        return planetList;
+    }
+
+    public List<Routes> getRouteList() {
+        return routeList;
+    }
+
+    public Planet getPlanetByNodeFromList(String planetNodeArg) {
+        Optional<Planet> foundPlanet = planetList.stream()
+                .filter(planet -> planet.getPlanetNode().equals(planetNodeArg)).findFirst();
+
+        if ( foundPlanet.isPresent())
+            return foundPlanet.get();
+
+        return null;
     }
 
 
@@ -89,13 +113,58 @@ public class SupportDataFile {
             throw new RuntimeException("extractPlanets() - No records found while reading the Excel file");
         }
 
-        log.info("Extracted a total of {} records from the excel file", planetList.size());
+        log.info("Extracted a total of {} PLANETS from the excel file", planetList.size());
         return planetList;
     }
 
 
+    private List<Routes> extractRoutes(Workbook workbook) {
 
-    public List<Planet> getPlanetList() {
-        return planetList;
+        // Get the sheet that contains the Planets info
+        log.info("Processing the sheet \"{}\"", ExcelSheetNames.ROUTES);
+        Sheet routesSheet = workbook.getSheet( ExcelSheetNames.ROUTES);
+
+        // Looping through the ROWS of the Sheet.
+        routesSheet.forEach( row -> {
+            Routes route = new Routes();
+
+            // Skips columns headers in the sheet.
+            if (row.getRowNum() != 0) {
+
+                // Now look through each row's CELL
+                row.forEach( cell -> {
+                    int columnIndex = cell.getColumnIndex();
+
+                    if ( RoutesContants.EXCEL_COLUMN_ROUTE_ID == columnIndex)
+                        route.setRouteId( Integer.parseInt( dataFormatter.formatCellValue(cell).trim()));
+
+                    if ( RoutesContants.EXCEL_COLUMN_PLANET_ORIGIN == columnIndex) {
+                        String planetOriginKey = dataFormatter.formatCellValue(cell);
+                        Planet planetOrigin = getPlanetByNodeFromList( planetOriginKey);
+                        route.setPlanetOrigin( planetOrigin);
+                    }
+
+                    if ( RoutesContants.EXCEL_COLUMN_PLANET_DESTINATION == columnIndex) {
+                        String planetDestinationKey = dataFormatter.formatCellValue(cell);
+                        Planet planetDestination = getPlanetByNodeFromList( planetDestinationKey);
+                        route.setPlanetDestination( planetDestination);
+                    }
+
+                    if ( RoutesContants.EXCEL_COLUMN_PLANET_DISTANCE == columnIndex)
+                        route.setDistanceInLightYears( Double.parseDouble( dataFormatter.formatCellValue(cell).trim()));
+
+                });
+
+                routeList.add( route);
+            }
+        });
+
+        // If we don't have records then something really went wrong with readinf the excel file.
+        if ( CollectionUtils.isEmpty( routeList)) {
+            throw new RuntimeException("extractRoutes() - No records found while reading the Excel file");
+        }
+
+        log.info("Extracted a total of {} ROUTES from the excel file", routeList.size());
+        return routeList;
     }
 }

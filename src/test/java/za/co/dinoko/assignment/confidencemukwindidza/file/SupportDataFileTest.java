@@ -29,13 +29,10 @@ public class SupportDataFileTest {
     @Test
     public void testThat_J_IsFor_Mercury() throws Exception {
         planetList = supportDataFile.getPlanetList();
-        Planet mercury = findPlanetByNode("J");
+        Planet mercury = supportDataFile.getPlanetByNodeFromList("J");
         assertNotNull( mercury);
         assertEquals( "Mercury", mercury.getPlanetName());
     }
 
-
-    private Planet findPlanetByNode(String planetNodeArg) {
-        return planetList.stream().filter( planet -> planet.getPlanetNode().equals(planetNodeArg)).findFirst().get();
-    }
 }
+

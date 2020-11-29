@@ -7,10 +7,10 @@ CREATE TABLE PLANET (
 );
 
 CREATE TABLE ROUTES (
-    id INT,
+    route_id INT,
     planet_origin VARCHAR(5) DEFAULT NULL,
     planet_destination VARCHAR(5) DEFAULT NULL,
-    distance DECIMAL DEFAULT NULL
+    distance_in_light_years DECIMAL DEFAULT NULL
 );
 
 ALTER TABLE ROUTES ADD FOREIGN KEY (planet_origin) REFERENCES PLANET(node);

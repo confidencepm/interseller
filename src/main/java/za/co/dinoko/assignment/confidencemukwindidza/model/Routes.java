@@ -1,41 +1,58 @@
 package za.co.dinoko.assignment.confidencemukwindidza.model;
 
+
+import javax.persistence.*;
+
+
+@Entity
+@Table( name = "ROUTES")
 public class Routes {
 
-    private int routeId;
-    private String planetOrigin;
-    private String planetDestination;
-    private double distanceInLightYears;
+    @Id
+    @Column( name = "route_id")
+    private Integer routeId;
 
-    public int getRouteId() {
+    @ManyToOne
+    @JoinColumn( name = "planet_origin", referencedColumnName = "node")
+    private Planet planetOrigin;
+
+    @ManyToOne
+    @JoinColumn( name = "planet_destination", referencedColumnName = "node")
+    private Planet planetDestination;
+
+    @Column( name = "distance_in_light_years", unique = true, nullable = false)
+    private Double distanceInLightYears;
+
+
+    public Integer getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(int routeId) {
+    public void setRouteId(Integer routeId) {
         this.routeId = routeId;
     }
 
-    public String getPlanetOrigin() {
+    public Planet getPlanetOrigin() {
         return planetOrigin;
     }
 
-    public void setPlanetOrigin(String planetOrigin) {
+    public void setPlanetOrigin(Planet planetOrigin) {
         this.planetOrigin = planetOrigin;
     }
 
-    public String getPlanetDestination() {
+    public Planet getPlanetDestination() {
         return planetDestination;
     }
 
-    public void setPlanetDestination(String planetDestination) {
+    public void setPlanetDestination(Planet planetDestination) {
         this.planetDestination = planetDestination;
     }
 
-    public double getDistanceInLightYears() {
+    public Double getDistanceInLightYears() {
         return distanceInLightYears;
     }
 
-    public void setDistanceInLightYears(double distanceInLightYears) {
+    public void setDistanceInLightYears(Double distanceInLightYears) {
         this.distanceInLightYears = distanceInLightYears;
     }
 }
