@@ -62,11 +62,15 @@ public class SupportDataFileProcessor {
         log.info("Reading Excel File : {} which has {} sheets in total",
                 supportExcelFileResource.getFilename(), workbook.getNumberOfSheets());
 
+        // Extract informations and then insert into the database. 
         extractPlanets( workbook);
         extractRoutes( workbook);
         loadDatabaseWithData();
     }
 
+    /**
+     * Leverages of the PLANETS & ROUTES lists and inserts them into the database.
+     */
     private void loadDatabaseWithData() {
         log.info("Saving the data from file : {} to the database", supportExcelFileResource.getFilename());
         planetRepository.saveAll( getPlanetList());
@@ -83,6 +87,11 @@ public class SupportDataFileProcessor {
         return routeList;
     }
 
+    /**
+     * Stream through the PLANETS list and extract one by the given Node.
+     * @param planetNodeArg
+     * @return
+     */
     public Planet getPlanetByNodeFromList(String planetNodeArg) {
         Optional<Planet> foundPlanet = planetList.stream()
                 .filter(planet -> planet.getPlanetNode().equals(planetNodeArg)).findFirst();
@@ -96,7 +105,7 @@ public class SupportDataFileProcessor {
 
     /**
      * Extracts out the content of the file into a list.
-     * This list will be the list of Planet Entites.
+     * This list will be the list of PLANET Entites.
      * @param workbook
      * @return
      */
@@ -137,7 +146,12 @@ public class SupportDataFileProcessor {
         return planetList;
     }
 
-
+    /**
+     * Extracts the Routes from the Excel Sheet.
+     * This list will be the list of ROUTES Entites.
+     * @param workbook
+     * @return
+     */
     private List<Routes> extractRoutes(Workbook workbook) {
 
         // Get the sheet that contains the Planets info
@@ -151,7 +165,7 @@ public class SupportDataFileProcessor {
             // Skips columns headers in the sheet.
             if (row.getRowNum() != 0) {
 
-                // Now look through each row's CELL
+                // Now look through each row's CELL and get the info mapped into the Entities.
                 row.forEach( cell -> {
                     int columnIndex = cell.getColumnIndex();
 
