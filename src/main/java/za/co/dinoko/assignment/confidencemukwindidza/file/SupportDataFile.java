@@ -34,8 +34,14 @@ public class SupportDataFile {
     private DataFormatter dataFormatter = new DataFormatter();
 
 
+    /**
+     * What happens when immediately after the class has been instantiated / constructed
+     * @throws Exception
+     */
     @PostConstruct
     public void initBean() throws Exception {
+
+        // Read the file into apache's POI's Workbook
         Workbook workbook = WorkbookFactory.create( supportExcelFileResource.getFile());
         log.info("Reading Excel File : {} which has {} sheets in total",
                 supportExcelFileResource.getFilename(), workbook.getNumberOfSheets());
@@ -43,14 +49,27 @@ public class SupportDataFile {
         extractPlanets( workbook);
     }
 
+
+    /**
+     * Extracts out the content of the file into a list.
+     * This list will be the list of Planet Entites.
+     * @param workbook
+     * @return
+     */
     private List<Planet> extractPlanets( Workbook workbook) {
+
+        // Get the sheet that contains the Planets info
         log.info("Processing the sheet \"{}\"", ExcelSheetNames.PLANET_NAMES);
         Sheet planetNamesSheet = workbook.getSheet( ExcelSheetNames.PLANET_NAMES);
 
+        // Looping through the ROWS of the Sheet.
         planetNamesSheet.forEach( row -> {
             Planet planet = new Planet();
 
+            // Skips columns headers in the sheet.
             if (row.getRowNum() != 0) {
+
+                // Now look through each row's CELL
                 row.forEach( cell -> {
                     int columnIndex = cell.getColumnIndex();
 
@@ -65,6 +84,7 @@ public class SupportDataFile {
             }
         });
 
+        // If we don't have records then something really went wrong with readinf the excel file.
         if ( CollectionUtils.isEmpty( planetList)) {
             throw new RuntimeException("extractPlanets() - No records found while reading the Excel file");
         }
