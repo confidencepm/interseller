@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.event.annotation.BeforeTestClass;
-import za.co.dinoko.assignment.confidencemukwindidza.file.SupportDataFile;
+import za.co.dinoko.assignment.confidencemukwindidza.file.SupportDataFileProcessor;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlanetRepositoryTest {
 
     @Autowired
-    private SupportDataFile supportDataFile;
+    private SupportDataFileProcessor supportDataFileProcessor;
 
     @Autowired
     private PlanetRepository planetRepository;
@@ -28,13 +28,13 @@ public class PlanetRepositoryTest {
 
     @BeforeTestClass
     public void setUp() {
-        assertNotNull( supportDataFile);
-        planetList = supportDataFile.getPlanetList();
+        assertNotNull(supportDataFileProcessor);
+        planetList = supportDataFileProcessor.getPlanetList();
     }
 
     @Test
     public void testThatWeCanPersistPlanets() {
-        planetList = supportDataFile.getPlanetList();
+        planetList = supportDataFileProcessor.getPlanetList();
         List<Planet> planets = planetRepository.saveAll(planetList);
         assertTrue( CollectionUtils.isNotEmpty( planets));
 
@@ -44,7 +44,7 @@ public class PlanetRepositoryTest {
 
     @Test
     public void testThatWeCanFindPlanetById() {
-        planetList = supportDataFile.getPlanetList();
+        planetList = supportDataFileProcessor.getPlanetList();
         planetRepository.saveAll(planetList);
 
         Optional<Planet> earthRecord = planetRepository.findById("A");

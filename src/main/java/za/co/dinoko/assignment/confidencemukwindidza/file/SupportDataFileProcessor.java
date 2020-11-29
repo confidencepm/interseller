@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,8 @@ import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetContants;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
+import za.co.dinoko.assignment.confidencemukwindidza.repository.PlanetRepository;
+import za.co.dinoko.assignment.confidencemukwindidza.repository.RouteRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -26,12 +29,18 @@ import java.util.Optional;
  */
 
 @Component
-public class SupportDataFile {
+public class SupportDataFileProcessor {
 
-    private static final Logger log = LoggerFactory.getLogger(SupportDataFile.class);
+    private static final Logger log = LoggerFactory.getLogger(SupportDataFileProcessor.class);
 
     @Value("classpath:files/SupportData-V1.xlsx")
     private Resource supportExcelFileResource;
+
+    @Autowired
+    private PlanetRepository planetRepository;
+
+    @Autowired
+    private RouteRepository routeRepository;
 
     private List<Planet> planetList = new ArrayList<>();
     private List<Routes> routeList = new ArrayList<>();
@@ -52,6 +61,14 @@ public class SupportDataFile {
 
         extractPlanets( workbook);
         extractRoutes( workbook);
+        loadDatabaseWithData();
+    }
+
+    private void loadDatabaseWithData() {
+        log.info("Saving the data from file : {} to the database", supportExcelFileResource.getFilename());
+        planetRepository.saveAll( getPlanetList());
+        routeRepository.saveAll( getRouteList());
+        log.info("Content now saved to the database!");
     }
 
 
