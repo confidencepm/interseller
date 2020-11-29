@@ -12,5 +12,7 @@ public interface PlanetContants {
     Integer EXCEL_COLUMN_PLANET_NODE = 0;
     Integer EXCEL_COLUMN_PLANET_NAME = 1;
 
+    String COLUMN_NAME_PLANET_NODE = "Planet Node";
+    String COLUMN_NAME_PLANET_NAME = "Planet Name";
 
 }
