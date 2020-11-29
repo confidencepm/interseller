@@ -34,6 +34,7 @@ public class SupportDataFileTest {
         assertEquals( "Mercury", mercury.getPlanetName());
     }
 
+
     private Planet findPlanetByNode(String planetNodeArg) {
         return planetList.stream().filter( planet -> planet.getPlanetNode().equals(planetNodeArg)).findFirst().get();
     }
