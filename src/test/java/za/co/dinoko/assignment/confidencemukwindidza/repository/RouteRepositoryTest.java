@@ -53,7 +53,6 @@ public class RouteRepositoryTest {
         assertNotNull( route.getDistanceInLightYears());
 
         assertEquals( 20, route.getRouteId());
-        assertEquals( 5.26, route.getDistanceInLightYears());
 
         Planet routeOrigin = route.getPlanetOrigin();
         assertNotNull( routeOrigin);
@@ -66,5 +65,7 @@ public class RouteRepositoryTest {
         assertNotNull( routeDestination.getPlanetNode());
         assertNotNull( routeDestination.getPlanetName());
         assertEquals("U", routeDestination.getPlanetNode());
+
+        assertEquals( 5.26, route.getDistanceInLightYears());
     }
 }
