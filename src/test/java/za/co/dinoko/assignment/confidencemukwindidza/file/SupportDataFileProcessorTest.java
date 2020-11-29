@@ -1,6 +1,5 @@
 package za.co.dinoko.assignment.confidencemukwindidza.file;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,11 +47,11 @@ public class SupportDataFileProcessorTest {
     public void testThatWeCanSaveAllData() throws Exception {
         List<Planet> allPlanets = planetRepository.findAll();
         assertNotNull( allPlanets);
-        assertTrue( CollectionUtils.isNotEmpty( allPlanets));
+        assertTrue( allPlanets.size() > 0);
 
         List<Routes> allRoutes = routeRepository.findAll();
         assertNotNull( allRoutes);
-        assertTrue( CollectionUtils.isNotEmpty( allRoutes));
+        assertTrue( allRoutes.size() > 0);
     }
 
 }
