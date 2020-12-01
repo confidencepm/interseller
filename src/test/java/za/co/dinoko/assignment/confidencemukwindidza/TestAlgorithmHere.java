@@ -5,6 +5,8 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import za.co.dinoko.assignment.confidencemukwindidza.file.SupportDataFileProcessor;
@@ -12,6 +14,8 @@ import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 import za.co.dinoko.assignment.confidencemukwindidza.repository.PlanetRepository;
 import za.co.dinoko.assignment.confidencemukwindidza.repository.RouteRepository;
+import za.co.dinoko.assignment.confidencemukwindidza.service.ShortestPath;
+import za.co.dinoko.assignment.confidencemukwindidza.service.ShortestPathService;
 
 import java.util.Optional;
 
@@ -31,12 +35,20 @@ public class TestAlgorithmHere {
     private SupportDataFileProcessor supportDataFileProcessor;
 
     @Autowired
+    private ShortestPathService shortestPathService;
+
+    @Autowired
+    private ShortestPath shortestPath;
+
+    @Autowired
     private PlanetRepository planetRepository;
 
     @Autowired
     private RouteRepository routeRepository;
 
     private SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
+
+    private static final Logger log = LoggerFactory.getLogger(TestAlgorithmHere.class);
 
 
     @Test
@@ -50,7 +62,7 @@ public class TestAlgorithmHere {
 
         planetRepository.findAll().stream()
                 .forEach(planet -> graph.addVertex(planet.getPlanetNode()));
-        assertTrue(graph.containsVertex("K'"));
+        assertTrue(graph.containsVertex("L'"));
 
         DefaultWeightedEdge edge = null;
 
@@ -63,6 +75,8 @@ public class TestAlgorithmHere {
             assertTrue(graph.containsEdge(edge));
         }
 
+        findShortestPath("D","K'");
+
     }
 
     // Adding distance between origin and destination
@@ -70,11 +84,19 @@ public class TestAlgorithmHere {
         this.graph.setEdgeWeight(edge, weight);
     }
 
-    public GraphPath shortestPath(String origin, String destination) {
-        return (new DijkstraShortestPath(graph)).getPath(origin, destination);
+    public String shortestPathSearch(String destination) {
+        final String origin = planetRepository.findById("A").toString();
+        String result = DijkstraShortestPath.findPathBetween(graph, origin, destination).toString();
+        System.out.println(result);
+        return result;
     }
 
-    // TODO: Move code into a class and create a service for the API resource to find shortest distance
+    public String findShortestPath(String source, String destination) {
+        source = "A";
+        log.info(DijkstraShortestPath.findPathBetween(this.graph, source,destination).toString());
+        return DijkstraShortestPath.findPathBetween(this.graph, source,destination).toString();
+    }
+    // TODO: Adding validations on shortest path and the origin
     // TODO: Default origin to Node A (Planet Earth)
     // TODO: Add tests for finding shortest distance
     // FIXME: Find out the solution for the missing Planet (L') and implement. Option 1: will be to add any random planet name and Option 2: Ask for a way forward.

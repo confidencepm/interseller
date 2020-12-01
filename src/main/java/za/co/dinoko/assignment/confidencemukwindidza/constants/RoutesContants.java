@@ -13,5 +13,6 @@ public interface RoutesContants {
     Integer EXCEL_COLUMN_PLANET_ORIGIN = 1;
     Integer EXCEL_COLUMN_PLANET_DESTINATION = 2;
     Integer EXCEL_COLUMN_PLANET_DISTANCE = 3;
+    String ORIGIN = "A";
 
 }
