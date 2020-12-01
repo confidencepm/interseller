@@ -193,7 +193,7 @@ public class SupportDataFileProcessor {
             }
         });
 
-        // If we don't have records then something really went wrong with readinf the excel file.
+        // If we don't have records then something really went wrong with read inf the excel file.
         if ( CollectionUtils.isEmpty( routeList)) {
             throw new RuntimeException("extractRoutes() - No records found while reading the Excel file");
         }

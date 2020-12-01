@@ -71,6 +71,11 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>${apache.collections.verion}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht-core</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 	</dependencies>
 
 
