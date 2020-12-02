@@ -14,9 +14,9 @@
 
 	<groupId>za.co.dinoko.assignment</groupId>
 	<artifactId>confidencemukwindidza</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0_SNAPSHOT</version>
 	<name>Confidence Mukwindidza [POM]</name>
-	<description>Demo project for Spring Boot</description>
+	<description>An interstellar transport system used by Earth’s inhabitants in the year 2145</description>
 
 
 	<properties>

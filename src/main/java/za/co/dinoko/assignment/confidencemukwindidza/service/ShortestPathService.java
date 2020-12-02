@@ -3,6 +3,8 @@ package za.co.dinoko.assignment.confidencemukwindidza.service;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
@@ -12,13 +14,6 @@ import za.co.dinoko.assignment.confidencemukwindidza.repository.RouteRepository;
 
 import javax.annotation.PostConstruct;
 
-/**
- * @author: Thabo Lebogang Matjuda
- * @since: 2020-11-29
- * @email: <a href="mailto:thabo@anylytical.co.za">Anylytical Technologies</a>
- * <a href="mailto:tl.matjuda@gmail.com">Personal GMail</a>
- */
-
 @Component
 public class ShortestPathService implements ShortestPath {
 
@@ -27,6 +22,8 @@ public class ShortestPathService implements ShortestPath {
 
     @Autowired
     private RouteRepository routeRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(ShortestPathService.class);
 
     private SimpleDirectedWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleDirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
@@ -58,8 +55,22 @@ public class ShortestPathService implements ShortestPath {
     }
 
     @Override
-    public String shortestPathSearch(String origin, String destination) {
-        origin = RoutesContants.ORIGIN;
-        return DijkstraShortestPath.findPathBetween(graph, origin, destination).toString();
+    public String shortestPathSearch(String destination) {
+
+        String origin;
+        String shortestPath;
+
+        if (graph.containsVertex(destination) && !destination.equals(RoutesContants.ORIGIN)) {
+            origin = RoutesContants.ORIGIN;
+            shortestPath = DijkstraShortestPath.findPathBetween(graph, origin, destination).toString();
+            log.info("The shortest path found: " + shortestPath);
+            return shortestPath;
+        } else if (destination.equals(RoutesContants.ORIGIN)) {
+            log.info(RoutesContants.DESTINATION_EQUAL_TO_ORIGIN);
+            return RoutesContants.DESTINATION_EQUAL_TO_ORIGIN;
+        } else {
+            log.info(RoutesContants.DESTINATION_NOT_FOUND);
+            return RoutesContants.DESTINATION_NOT_FOUND;
+        }
     }
 }

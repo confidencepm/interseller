@@ -1,8 +1,6 @@
 package za.co.dinoko.assignment.confidencemukwindidza.model;
 
-
 import javax.persistence.*;
-
 
 @Entity
 @Table( name = "ROUTES")
