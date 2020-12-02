@@ -6,15 +6,17 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 import za.co.dinoko.assignment.confidencemukwindidza.repository.PlanetRepository;
 import za.co.dinoko.assignment.confidencemukwindidza.repository.RouteRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
-@Component
+@Service
 public class ShortestPathService implements ShortestPath {
 
     @Autowired
@@ -33,29 +35,8 @@ public class ShortestPathService implements ShortestPath {
         addEdges();
     }
 
-    public void addVertices() {
-        planetRepository.findAll().stream()
-                .forEach(planet -> graph.addVertex(planet.getPlanetNode()));
-    }
-
-    public void addEdges() {
-        DefaultWeightedEdge edge = null;
-
-        for (Routes routes : routeRepository.findAll()) {
-            if (!routes.getPlanetOrigin().getPlanetNode().equals(routes.getPlanetDestination().getPlanetNode())) {
-                // FIXME: Null point exception being thrown here needs to be fixed (See fixme below)
-                edge = graph.addEdge(routes.getPlanetOrigin().getPlanetNode(), routes.getPlanetDestination().getPlanetNode());
-            }
-            addEdgeWeight(edge, routes.getDistanceInLightYears());
-        }
-    }
-
-    private void addEdgeWeight(DefaultWeightedEdge edge, double weight) {
-        graph.setEdgeWeight(edge, weight);
-    }
-
     @Override
-    public String shortestPathSearch(String destination) {
+    public String shortestPathSearch( String destination) {
 
         String origin;
         String shortestPath;
@@ -72,5 +53,29 @@ public class ShortestPathService implements ShortestPath {
             log.info(RoutesContants.DESTINATION_NOT_FOUND);
             return RoutesContants.DESTINATION_NOT_FOUND;
         }
+    }
+
+    private void addVertices() {
+        planetRepository.findAll().stream()
+                .forEach(planet -> graph.addVertex(planet.getPlanetNode()));
+    }
+
+    private void addEdges() {
+        AtomicReference<DefaultWeightedEdge> edge = null;
+        List<Routes> routeList = routeRepository.findAll();
+
+        routeList.forEach( routeRecord -> {
+            String originNode = routeRecord.getPlanetOrigin().getPlanetNode();
+            String destinationNode = routeRecord.getPlanetDestination().getPlanetNode();
+
+            if ( !originNode.equals(destinationNode)) {
+                edge.set( graph.addEdge(originNode, destinationNode));
+            }
+            addEdgeWeight(edge.get(), routeRecord.getDistanceInLightYears());
+        });
+    }
+
+    private void addEdgeWeight(DefaultWeightedEdge edge, double weight) {
+        graph.setEdgeWeight(edge, weight);
     }
 }

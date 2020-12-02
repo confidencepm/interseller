@@ -24,6 +24,7 @@
 
 		<apache.poi.verion>4.1.2</apache.poi.verion>
 		<apache.collections.verion>4.4</apache.collections.verion>
+		<hgrapht-core.version>1.0.1</hgrapht-core.version>
 	</properties>
 
 
@@ -74,7 +75,7 @@
 		<dependency>
 			<groupId>org.jgrapht</groupId>
 			<artifactId>jgrapht-core</artifactId>
-			<version>1.0.1</version>
+			<version>${hgrapht-core.version}</version>
 		</dependency>
 	</dependencies>
 
