@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ConfidenceMukwindidzaApplication {
+public class InterstellerTransportSystemApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConfidenceMukwindidzaApplication.class, args);
+        SpringApplication.run(InterstellerTransportSystemApplication.class, args);
     }
 
 }

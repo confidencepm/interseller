@@ -4,7 +4,7 @@ public class RouteRequest {
 
     String routeRequest;
 
-
+    // Getting the shortest route request to a given destination
     public String getRouteRequest() {
         return routeRequest;
     }

@@ -18,6 +18,7 @@ public class Planet implements Serializable {
     private String planetName;
 
 
+    // Getters and Setters
     public String getPlanetNode() {
         return planetNode;
     }

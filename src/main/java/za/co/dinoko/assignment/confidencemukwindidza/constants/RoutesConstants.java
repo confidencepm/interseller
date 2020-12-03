@@ -1,6 +1,6 @@
 package za.co.dinoko.assignment.confidencemukwindidza.constants;
 
-public interface RoutesContants {
+public interface RoutesConstants {
 
     Integer EXCEL_COLUMN_ROUTE_ID = 0;
     Integer EXCEL_COLUMN_PLANET_ORIGIN = 1;

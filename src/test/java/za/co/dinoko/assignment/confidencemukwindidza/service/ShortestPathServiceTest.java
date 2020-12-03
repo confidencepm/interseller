@@ -3,7 +3,7 @@ package za.co.dinoko.assignment.confidencemukwindidza.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesConstants;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,14 +17,14 @@ public class ShortestPathServiceTest {
 
     @Test
     public void testThatNonExistingVertexCannotBeFound() {
-        assertTrue(shortestPathService.shortestPathSearch("KKKKKK")
-                .contentEquals(RoutesContants.DESTINATION_NOT_FOUND));
+        assertTrue(shortestPathService.shortestPathSearch("88")
+                .contentEquals(RoutesConstants.DESTINATION_NOT_FOUND));
     }
 
     @Test
     public void testThatProvidedDestinationIsTheOrigin() {
-        assertTrue(shortestPathService.shortestPathSearch(RoutesContants.ORIGIN)
-                .contentEquals(RoutesContants.DESTINATION_EQUAL_TO_ORIGIN));
+        assertTrue(shortestPathService.shortestPathSearch(RoutesConstants.ORIGIN)
+                .contentEquals(RoutesConstants.DESTINATION_EQUAL_TO_ORIGIN));
     }
 
     @Test

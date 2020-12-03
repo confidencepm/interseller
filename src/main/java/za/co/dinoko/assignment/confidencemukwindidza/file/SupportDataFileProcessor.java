@@ -13,7 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.ExcelSheetNames;
 import za.co.dinoko.assignment.confidencemukwindidza.constants.PlanetConstants;
-import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesConstants;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Planet;
 import za.co.dinoko.assignment.confidencemukwindidza.model.Routes;
 import za.co.dinoko.assignment.confidencemukwindidza.repository.PlanetRepository;
@@ -56,7 +56,7 @@ public class SupportDataFileProcessor {
         log.info("Reading Excel File : {} which has {} sheets in total",
                 supportExcelFileResource.getFilename(), workbook.getNumberOfSheets());
 
-        // Extract informations and then insert into the database. 
+        // Extract information and then insert into the database.
         extractPlanets(workbook);
         extractRoutes(workbook);
         loadDatabaseWithData();
@@ -119,7 +119,7 @@ public class SupportDataFileProcessor {
             // Skips columns headers in the sheet.
             if (row.getRowNum() != 0) {
 
-                // Now look through each row's CELL
+                // Looping through each row's CELLS
                 row.forEach(cell -> {
                     int columnIndex = cell.getColumnIndex();
 
@@ -134,7 +134,7 @@ public class SupportDataFileProcessor {
             }
         });
 
-        // If we don't have records then something really went wrong with read inf the excel file.
+        // If we don't have records then something went wrong with reading the excel file.
         if (CollectionUtils.isEmpty(planetList)) {
             throw new RuntimeException("extractPlanets() - No records found while reading the Excel file");
         }
@@ -167,22 +167,22 @@ public class SupportDataFileProcessor {
                 row.forEach(cell -> {
                     int columnIndex = cell.getColumnIndex();
 
-                    if (RoutesContants.EXCEL_COLUMN_ROUTE_ID == columnIndex)
+                    if (RoutesConstants.EXCEL_COLUMN_ROUTE_ID == columnIndex)
                         route.setRouteId(Integer.parseInt(dataFormatter.formatCellValue(cell).trim()));
 
-                    if (RoutesContants.EXCEL_COLUMN_PLANET_ORIGIN == columnIndex) {
+                    if (RoutesConstants.EXCEL_COLUMN_PLANET_ORIGIN == columnIndex) {
                         String planetOriginKey = dataFormatter.formatCellValue(cell);
                         Planet planetOrigin = getPlanetByNodeFromList(planetOriginKey);
                         route.setPlanetOrigin(planetOrigin);
                     }
 
-                    if (RoutesContants.EXCEL_COLUMN_PLANET_DESTINATION == columnIndex) {
+                    if (RoutesConstants.EXCEL_COLUMN_PLANET_DESTINATION == columnIndex) {
                         String planetDestinationKey = dataFormatter.formatCellValue(cell);
                         Planet planetDestination = getPlanetByNodeFromList(planetDestinationKey);
                         route.setPlanetDestination(planetDestination);
                     }
 
-                    if (RoutesContants.EXCEL_COLUMN_PLANET_DISTANCE == columnIndex)
+                    if (RoutesConstants.EXCEL_COLUMN_PLANET_DISTANCE == columnIndex)
                         route.setDistanceInLightYears(Double.parseDouble(dataFormatter.formatCellValue(cell).trim()));
 
                 });
@@ -191,7 +191,7 @@ public class SupportDataFileProcessor {
             }
         });
 
-        // If we don't have records then something really went wrong with read inf the excel file.
+        // If we don't have records then something went wrong with reading of the excel file.
         if (CollectionUtils.isEmpty(routeList)) {
             throw new RuntimeException("extractRoutes() - No records found while reading the Excel file");
         }

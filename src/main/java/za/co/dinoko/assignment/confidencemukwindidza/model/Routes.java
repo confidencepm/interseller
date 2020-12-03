@@ -22,6 +22,7 @@ public class Routes {
     private Double distanceInLightYears;
 
 
+    // Getters and Setters
     public Integer getRouteId() {
         return routeId;
     }

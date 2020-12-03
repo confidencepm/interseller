@@ -24,3 +24,6 @@ Request body example (JSON Format):
 
 Response example:
       [(A : C), (C : F), (F : K)]
+      
+#Note
+The program could be improved by allowing searching of the shortest path from any point on the graph to another. This was not implemented here since the scope of the task was beyond this functionality.
