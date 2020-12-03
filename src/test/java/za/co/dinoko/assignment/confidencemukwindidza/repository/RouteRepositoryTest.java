@@ -30,7 +30,7 @@ public class RouteRepositoryTest {
 
 
     @Test
-    public void testThatWeCanPersistRoutesIntoDatabase() throws Exception {
+    public void testThatWeCanPersistRoutesIntoDatabase() {
         routeRepository.saveAll(supportDataFileProcessor.getRouteList());
         List<Routes> allRoutes = routeRepository.findAll();
 
@@ -39,7 +39,7 @@ public class RouteRepositoryTest {
     }
 
     @Test
-    public void testThatWeCanFindRouteByID() throws Exception {
+    public void testThatWeCanFindRouteByID() {
         routeRepository.saveAll(supportDataFileProcessor.getRouteList());
         Optional<Routes> foundRouteById = routeRepository.findById(20);
 

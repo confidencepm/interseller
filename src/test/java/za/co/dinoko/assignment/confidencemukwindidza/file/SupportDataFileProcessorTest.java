@@ -29,14 +29,14 @@ public class SupportDataFileProcessorTest {
 
 
     @Test
-    public void testThatWeCanReadFileIntoList() throws Exception {
+    public void testThatWeCanReadFileIntoList() {
         planetList = supportDataFileProcessor.getPlanetList();
         assertNotNull(planetList);
         assertTrue(planetList.size() > 0);
     }
 
     @Test
-    public void testThat_J_IsFor_Mercury() throws Exception {
+    public void testThat_J_IsFor_Mercury() {
         planetList = supportDataFileProcessor.getPlanetList();
         Planet mercury = supportDataFileProcessor.getPlanetByNodeFromList("J");
         assertNotNull(mercury);
@@ -44,7 +44,7 @@ public class SupportDataFileProcessorTest {
     }
 
     @Test
-    public void testThatWeCanSaveAllData() throws Exception {
+    public void testThatWeCanSaveAllData() {
         List<Planet> allPlanets = planetRepository.findAll();
         assertNotNull(allPlanets);
         assertTrue(allPlanets.size() > 0);
