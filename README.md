@@ -16,7 +16,7 @@ Request mapping to get shortest path using Port 8080 on localhost:
       http://localhost:8080/shortest-path
 
 
-Request body example (JSON):
+Request body example (JSON Format):
       {
           "routeRequest" : "K"
       }
