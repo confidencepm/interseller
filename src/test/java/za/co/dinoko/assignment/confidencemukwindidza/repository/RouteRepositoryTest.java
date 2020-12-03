@@ -22,7 +22,7 @@ public class RouteRepositoryTest {
     @Autowired
     private RouteRepository routeRepository;
 
-    
+
     @BeforeTestClass
     public void setUp() {
         assertNotNull(supportDataFileProcessor);
@@ -31,41 +31,41 @@ public class RouteRepositoryTest {
 
     @Test
     public void testThatWeCanPersistRoutesIntoDatabase() throws Exception {
-        routeRepository.saveAll( supportDataFileProcessor.getRouteList());
+        routeRepository.saveAll(supportDataFileProcessor.getRouteList());
         List<Routes> allRoutes = routeRepository.findAll();
 
-        assertNotNull( allRoutes);
-        assertTrue( allRoutes.size() > 0);
+        assertNotNull(allRoutes);
+        assertTrue(allRoutes.size() > 0);
     }
 
     @Test
     public void testThatWeCanFindRouteByID() throws Exception {
-        routeRepository.saveAll( supportDataFileProcessor.getRouteList());
+        routeRepository.saveAll(supportDataFileProcessor.getRouteList());
         Optional<Routes> foundRouteById = routeRepository.findById(20);
 
-        assertTrue( foundRouteById.isPresent());
+        assertTrue(foundRouteById.isPresent());
         Routes route = foundRouteById.get();
-        assertNotNull( route);
+        assertNotNull(route);
 
-        assertNotNull( route.getRouteId());
-        assertNotNull( route.getPlanetOrigin());
-        assertNotNull( route.getPlanetDestination());
-        assertNotNull( route.getDistanceInLightYears());
+        assertNotNull(route.getRouteId());
+        assertNotNull(route.getPlanetOrigin());
+        assertNotNull(route.getPlanetDestination());
+        assertNotNull(route.getDistanceInLightYears());
 
-        assertEquals( 20, route.getRouteId());
+        assertEquals(20, route.getRouteId());
 
         Planet routeOrigin = route.getPlanetOrigin();
-        assertNotNull( routeOrigin);
-        assertNotNull( routeOrigin.getPlanetNode());
-        assertNotNull( routeOrigin.getPlanetName());
+        assertNotNull(routeOrigin);
+        assertNotNull(routeOrigin.getPlanetNode());
+        assertNotNull(routeOrigin.getPlanetName());
         assertEquals("O", routeOrigin.getPlanetNode());
 
         Planet routeDestination = route.getPlanetDestination();
-        assertNotNull( routeDestination);
-        assertNotNull( routeDestination.getPlanetNode());
-        assertNotNull( routeDestination.getPlanetName());
+        assertNotNull(routeDestination);
+        assertNotNull(routeDestination.getPlanetNode());
+        assertNotNull(routeDestination.getPlanetName());
         assertEquals("U", routeDestination.getPlanetNode());
 
-        assertEquals( 5.26, route.getDistanceInLightYears());
+        assertEquals(5.26, route.getDistanceInLightYears());
     }
 }

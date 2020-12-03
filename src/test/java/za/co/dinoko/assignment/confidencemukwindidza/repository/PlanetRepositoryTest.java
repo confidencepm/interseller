@@ -36,10 +36,10 @@ public class PlanetRepositoryTest {
     public void testThatWeCanPersistPlanets() {
         planetList = supportDataFileProcessor.getPlanetList();
         List<Planet> planets = planetRepository.saveAll(planetList);
-        assertTrue( CollectionUtils.isNotEmpty( planets));
+        assertTrue(CollectionUtils.isNotEmpty(planets));
 
         List<Planet> allPlanets = planetRepository.findAll();
-        assertTrue( CollectionUtils.isNotEmpty( allPlanets));
+        assertTrue(CollectionUtils.isNotEmpty(allPlanets));
     }
 
     @Test
@@ -48,8 +48,8 @@ public class PlanetRepositoryTest {
         planetRepository.saveAll(planetList);
 
         Optional<Planet> earthRecord = planetRepository.findById("A");
-        assertTrue( earthRecord.isPresent());
+        assertTrue(earthRecord.isPresent());
         Planet earth = earthRecord.get();
-        assertEquals( "Earth", earth.getPlanetName());
+        assertEquals("Earth", earth.getPlanetName());
     }
 }

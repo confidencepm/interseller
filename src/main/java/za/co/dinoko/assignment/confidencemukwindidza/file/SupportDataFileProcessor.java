@@ -45,19 +45,20 @@ public class SupportDataFileProcessor {
 
     /**
      * What happens when immediately after the class has been instantiated / constructed
+     *
      * @throws Exception
      */
     @PostConstruct
     public void initBean() throws Exception {
 
         // Read the file into apache's POI's Workbook
-        Workbook workbook = WorkbookFactory.create( supportExcelFileResource.getFile());
+        Workbook workbook = WorkbookFactory.create(supportExcelFileResource.getFile());
         log.info("Reading Excel File : {} which has {} sheets in total",
                 supportExcelFileResource.getFilename(), workbook.getNumberOfSheets());
 
         // Extract informations and then insert into the database. 
-        extractPlanets( workbook);
-        extractRoutes( workbook);
+        extractPlanets(workbook);
+        extractRoutes(workbook);
         loadDatabaseWithData();
     }
 
@@ -66,8 +67,8 @@ public class SupportDataFileProcessor {
      */
     private void loadDatabaseWithData() {
         log.info("Saving the data from file : {} to the database", supportExcelFileResource.getFilename());
-        planetRepository.saveAll( getPlanetList());
-        routeRepository.saveAll( getRouteList());
+        planetRepository.saveAll(getPlanetList());
+        routeRepository.saveAll(getRouteList());
         log.info("Content now saved to the database!");
     }
 
@@ -82,6 +83,7 @@ public class SupportDataFileProcessor {
 
     /**
      * Stream through the PLANETS list and extract one by the given Node.
+     *
      * @param planetNodeArg
      * @return
      */
@@ -89,7 +91,7 @@ public class SupportDataFileProcessor {
         Optional<Planet> foundPlanet = planetList.stream()
                 .filter(planet -> planet.getPlanetNode().equals(planetNodeArg)).findFirst();
 
-        if ( foundPlanet.isPresent())
+        if (foundPlanet.isPresent())
             return foundPlanet.get();
 
         return null;
@@ -99,39 +101,40 @@ public class SupportDataFileProcessor {
     /**
      * Extracts out the content of the file into a list.
      * This list will be the list of PLANET Entites.
+     *
      * @param workbook
      * @return
      */
-    private List<Planet> extractPlanets( Workbook workbook) {
+    private List<Planet> extractPlanets(Workbook workbook) {
 
         // Get the sheet that contains the Planets info
         log.info("Processing the sheet \"{}\"", ExcelSheetNames.PLANET_NAMES);
-        Sheet planetNamesSheet = workbook.getSheet( ExcelSheetNames.PLANET_NAMES);
+        Sheet planetNamesSheet = workbook.getSheet(ExcelSheetNames.PLANET_NAMES);
 
         // Looping through the ROWS of the Sheet.
-        planetNamesSheet.forEach( row -> {
+        planetNamesSheet.forEach(row -> {
             Planet planet = new Planet();
 
             // Skips columns headers in the sheet.
             if (row.getRowNum() != 0) {
 
                 // Now look through each row's CELL
-                row.forEach( cell -> {
+                row.forEach(cell -> {
                     int columnIndex = cell.getColumnIndex();
 
-                    if ( PlanetConstants.EXCEL_COLUMN_PLANET_NODE == columnIndex)
-                        planet.setPlanetNode( dataFormatter.formatCellValue(cell).trim());
+                    if (PlanetConstants.EXCEL_COLUMN_PLANET_NODE == columnIndex)
+                        planet.setPlanetNode(dataFormatter.formatCellValue(cell).trim());
 
-                    if ( PlanetConstants.EXCEL_COLUMN_PLANET_NAME == columnIndex)
-                        planet.setPlanetName( dataFormatter.formatCellValue(cell).trim());
+                    if (PlanetConstants.EXCEL_COLUMN_PLANET_NAME == columnIndex)
+                        planet.setPlanetName(dataFormatter.formatCellValue(cell).trim());
                 });
 
-                planetList.add( planet);
+                planetList.add(planet);
             }
         });
 
-        // If we don't have records then something really went wrong with readinf the excel file.
-        if ( CollectionUtils.isEmpty( planetList)) {
+        // If we don't have records then something really went wrong with read inf the excel file.
+        if (CollectionUtils.isEmpty(planetList)) {
             throw new RuntimeException("extractPlanets() - No records found while reading the Excel file");
         }
 
@@ -142,6 +145,7 @@ public class SupportDataFileProcessor {
     /**
      * Extracts the Routes from the Excel Sheet.
      * This list will be the list of ROUTES Entites.
+     *
      * @param workbook
      * @return
      */
@@ -149,45 +153,45 @@ public class SupportDataFileProcessor {
 
         // Get the sheet that contains the Planets info
         log.info("Processing the sheet \"{}\"", ExcelSheetNames.ROUTES);
-        Sheet routesSheet = workbook.getSheet( ExcelSheetNames.ROUTES);
+        Sheet routesSheet = workbook.getSheet(ExcelSheetNames.ROUTES);
 
         // Looping through the ROWS of the Sheet.
-        routesSheet.forEach( row -> {
+        routesSheet.forEach(row -> {
             Routes route = new Routes();
 
             // Skips columns headers in the sheet.
             if (row.getRowNum() != 0) {
 
                 // Now look through each row's CELL and get the info mapped into the Entities.
-                row.forEach( cell -> {
+                row.forEach(cell -> {
                     int columnIndex = cell.getColumnIndex();
 
-                    if ( RoutesContants.EXCEL_COLUMN_ROUTE_ID == columnIndex)
-                        route.setRouteId( Integer.parseInt( dataFormatter.formatCellValue(cell).trim()));
+                    if (RoutesContants.EXCEL_COLUMN_ROUTE_ID == columnIndex)
+                        route.setRouteId(Integer.parseInt(dataFormatter.formatCellValue(cell).trim()));
 
-                    if ( RoutesContants.EXCEL_COLUMN_PLANET_ORIGIN == columnIndex) {
+                    if (RoutesContants.EXCEL_COLUMN_PLANET_ORIGIN == columnIndex) {
                         String planetOriginKey = dataFormatter.formatCellValue(cell);
-                        Planet planetOrigin = getPlanetByNodeFromList( planetOriginKey);
-                        route.setPlanetOrigin( planetOrigin);
+                        Planet planetOrigin = getPlanetByNodeFromList(planetOriginKey);
+                        route.setPlanetOrigin(planetOrigin);
                     }
 
-                    if ( RoutesContants.EXCEL_COLUMN_PLANET_DESTINATION == columnIndex) {
+                    if (RoutesContants.EXCEL_COLUMN_PLANET_DESTINATION == columnIndex) {
                         String planetDestinationKey = dataFormatter.formatCellValue(cell);
-                        Planet planetDestination = getPlanetByNodeFromList( planetDestinationKey);
-                        route.setPlanetDestination( planetDestination);
+                        Planet planetDestination = getPlanetByNodeFromList(planetDestinationKey);
+                        route.setPlanetDestination(planetDestination);
                     }
 
-                    if ( RoutesContants.EXCEL_COLUMN_PLANET_DISTANCE == columnIndex)
-                        route.setDistanceInLightYears( Double.parseDouble( dataFormatter.formatCellValue(cell).trim()));
+                    if (RoutesContants.EXCEL_COLUMN_PLANET_DISTANCE == columnIndex)
+                        route.setDistanceInLightYears(Double.parseDouble(dataFormatter.formatCellValue(cell).trim()));
 
                 });
 
-                routeList.add( route);
+                routeList.add(route);
             }
         });
 
         // If we don't have records then something really went wrong with read inf the excel file.
-        if ( CollectionUtils.isEmpty( routeList)) {
+        if (CollectionUtils.isEmpty(routeList)) {
             throw new RuntimeException("extractRoutes() - No records found while reading the Excel file");
         }
 

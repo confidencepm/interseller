@@ -31,27 +31,27 @@ public class SupportDataFileProcessorTest {
     @Test
     public void testThatWeCanReadFileIntoList() throws Exception {
         planetList = supportDataFileProcessor.getPlanetList();
-        assertNotNull( planetList);
-        assertTrue( planetList.size() > 0);
+        assertNotNull(planetList);
+        assertTrue(planetList.size() > 0);
     }
 
     @Test
     public void testThat_J_IsFor_Mercury() throws Exception {
         planetList = supportDataFileProcessor.getPlanetList();
         Planet mercury = supportDataFileProcessor.getPlanetByNodeFromList("J");
-        assertNotNull( mercury);
-        assertEquals( "Mercury", mercury.getPlanetName());
+        assertNotNull(mercury);
+        assertEquals("Mercury", mercury.getPlanetName());
     }
 
     @Test
     public void testThatWeCanSaveAllData() throws Exception {
         List<Planet> allPlanets = planetRepository.findAll();
-        assertNotNull( allPlanets);
-        assertTrue( allPlanets.size() > 0);
+        assertNotNull(allPlanets);
+        assertTrue(allPlanets.size() > 0);
 
         List<Routes> allRoutes = routeRepository.findAll();
-        assertNotNull( allRoutes);
-        assertTrue( allRoutes.size() > 0);
+        assertNotNull(allRoutes);
+        assertTrue(allRoutes.size() > 0);
     }
 
 }

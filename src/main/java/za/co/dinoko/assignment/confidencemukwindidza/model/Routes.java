@@ -3,22 +3,22 @@ package za.co.dinoko.assignment.confidencemukwindidza.model;
 import javax.persistence.*;
 
 @Entity
-@Table( name = "ROUTES")
+@Table(name = "ROUTES")
 public class Routes {
 
     @Id
-    @Column( name = "route_id")
+    @Column(name = "route_id")
     private Integer routeId;
 
     @ManyToOne
-    @JoinColumn( name = "planet_origin", referencedColumnName = "node")
+    @JoinColumn(name = "planet_origin", referencedColumnName = "node")
     private Planet planetOrigin;
 
     @ManyToOne
-    @JoinColumn( name = "planet_destination", referencedColumnName = "node")
+    @JoinColumn(name = "planet_destination", referencedColumnName = "node")
     private Planet planetDestination;
 
-    @Column( name = "distance_in_light_years", unique = true, nullable = false)
+    @Column(name = "distance_in_light_years", unique = true, nullable = false)
     private Double distanceInLightYears;
 
 

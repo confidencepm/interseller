@@ -36,7 +36,7 @@ public class ShortestPathService implements ShortestPath {
     }
 
     @Override
-    public String shortestPathSearch( String destination) {
+    public String shortestPathSearch(String destination) {
 
         String origin;
         String shortestPath;
@@ -64,12 +64,12 @@ public class ShortestPathService implements ShortestPath {
         AtomicReference<DefaultWeightedEdge> edge = null;
         List<Routes> routeList = routeRepository.findAll();
 
-        routeList.forEach( routeRecord -> {
+        routeList.forEach(routeRecord -> {
             String originNode = routeRecord.getPlanetOrigin().getPlanetNode();
             String destinationNode = routeRecord.getPlanetDestination().getPlanetNode();
 
-            if ( !originNode.equals(destinationNode)) {
-                edge.set( graph.addEdge(originNode, destinationNode));
+            if (!originNode.equals(destinationNode)) {
+                edge.set(graph.addEdge(originNode, destinationNode));
             }
             addEdgeWeight(edge.get(), routeRecord.getDistanceInLightYears());
         });

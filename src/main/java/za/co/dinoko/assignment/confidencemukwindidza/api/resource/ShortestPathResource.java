@@ -16,16 +16,16 @@ public class ShortestPathResource {
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<RouteResponse> shortestPathToDestination( @RequestBody RouteRequest routeRequest) {
-        RouteResponse routeResponse =  new RouteResponse();
+    public ResponseEntity<RouteResponse> shortestPathToDestination(@RequestBody RouteRequest routeRequest) {
+        RouteResponse routeResponse = new RouteResponse();
         String shortestPathText = shortestPath.shortestPathSearch(routeRequest.getRouteRequest());
 
         if (shortestPathText.startsWith("[")) {
-            routeResponse.setShortestPath( shortestPathText);
+            routeResponse.setShortestPath(shortestPathText);
         } else {
-            routeResponse.setErrorMessage( shortestPathText);
+            routeResponse.setErrorMessage(shortestPathText);
         }
-        
-        return ResponseEntity.ok( routeResponse);
+
+        return ResponseEntity.ok(routeResponse);
     }
 }

@@ -7,22 +7,15 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table ( name = "PLANET")
+@Table(name = "PLANET")
 public class Planet implements Serializable {
 
     @Id
-    @Column( name = "node", unique = true, nullable = false)
+    @Column(name = "node", unique = true, nullable = false)
     private String planetNode;
 
-    @Column( name = "name")
+    @Column(name = "name")
     private String planetName;
-
-//    @OneToMany(mappedBy = "planetOrigin")
-//    private List<Routes> routeOrigins;
-//
-//    @OneToMany(mappedBy = "planetDestination")
-//    private List<Routes> routeDestinations;
-
 
 
     public String getPlanetNode() {
@@ -40,20 +33,4 @@ public class Planet implements Serializable {
     public void setPlanetName(String planetName) {
         this.planetName = planetName;
     }
-
-//    public List<Routes> getRouteOrigins() {
-//        return routeOrigins;
-//    }
-//
-//    public void setRouteOrigins(List<Routes> routeOrigins) {
-//        this.routeOrigins = routeOrigins;
-//    }
-//
-//    public List<Routes> getRouteDestinations() {
-//        return routeDestinations;
-//    }
-//
-//    public void setRouteDestinations(List<Routes> routeDestinations) {
-//        this.routeDestinations = routeDestinations;
-//    }
 }
