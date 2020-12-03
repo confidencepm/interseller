@@ -60,6 +60,7 @@ public class SupportDataFileProcessor {
         extractPlanets(workbook);
         extractRoutes(workbook);
         loadDatabaseWithData();
+        workbook.close();
     }
 
     /**

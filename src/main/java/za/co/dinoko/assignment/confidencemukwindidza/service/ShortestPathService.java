@@ -41,6 +41,14 @@ public class ShortestPathService implements ShortestPath {
         String origin;
         String shortestPath;
 
+        if (destination == null || destination.length() == 0) {
+            log.info(RoutesContants.REQUEST_BODY_NOT_FOUND);
+            return RoutesContants.REQUEST_BODY_NOT_FOUND;
+        }
+        if (graph.vertexSet().isEmpty()) {
+            initGraph();
+        }
+
         if (graph.containsVertex(destination) && !destination.equals(RoutesContants.ORIGIN)) {
             origin = RoutesContants.ORIGIN;
             shortestPath = DijkstraShortestPath.findPathBetween(graph, origin, destination).toString();
@@ -61,7 +69,7 @@ public class ShortestPathService implements ShortestPath {
     }
 
     private void addEdges() {
-        AtomicReference<DefaultWeightedEdge> edge = null;
+        AtomicReference<DefaultWeightedEdge> edge = new AtomicReference<>();
         List<Routes> routeList = routeRepository.findAll();
 
         routeList.forEach(routeRecord -> {

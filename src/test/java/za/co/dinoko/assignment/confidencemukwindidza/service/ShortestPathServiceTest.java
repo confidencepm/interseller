@@ -16,16 +16,25 @@ public class ShortestPathServiceTest {
     private ShortestPathService shortestPathService;
 
     @Test
-    public void testThatICanFindTheShortedRouteFromEARTH() throws Exception {
+    public void testThatNonExistingVertexCannotBeFound() {
         assertTrue(shortestPathService.shortestPathSearch("KKKKKK")
                 .contentEquals(RoutesContants.DESTINATION_NOT_FOUND));
+    }
 
+    @Test
+    public void testThatProvidedDestinationIsTheOrigin() {
         assertTrue(shortestPathService.shortestPathSearch(RoutesContants.ORIGIN)
                 .contentEquals(RoutesContants.DESTINATION_EQUAL_TO_ORIGIN));
+    }
 
-        assertTrue(shortestPathService.shortestPathSearch("D'")
-                .contentEquals("[(A : C), (C : F), (F : J), (J : R), (R : P), (P : U), (U : K'), (K' : W), (W : C'), (C' : D')]"));
+    @Test
+    public void testThatShortestPathFound() {
+        assertTrue(shortestPathService.shortestPathSearch("K")
+                .contentEquals("[(A : C), (C : F), (F : K)]"));
+    }
 
+    @Test
+    public void testThatPathIsNotTheShortest() {
         assertFalse(shortestPathService.shortestPathSearch("D'")
                 .contentEquals("[(A : C), (C : F), (F : J), (J : R), (R : P), (K' : W), (W : C'), (C' : D')]"));
 

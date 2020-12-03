@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.co.dinoko.assignment.confidencemukwindidza.api.dto.RouteRequest;
 import za.co.dinoko.assignment.confidencemukwindidza.api.dto.RouteResponse;
+import za.co.dinoko.assignment.confidencemukwindidza.constants.RoutesContants;
 import za.co.dinoko.assignment.confidencemukwindidza.service.ShortestPath;
 
 @RestController
@@ -18,8 +19,12 @@ public class ShortestPathResource {
     @ResponseBody
     public ResponseEntity<RouteResponse> shortestPathToDestination(@RequestBody RouteRequest routeRequest) {
         RouteResponse routeResponse = new RouteResponse();
-        String shortestPathText = shortestPath.shortestPathSearch(routeRequest.getRouteRequest());
-
+        String shortestPathText;
+        if (routeRequest == null) {
+            shortestPathText = RoutesContants.REQUEST_BODY_NOT_FOUND;
+        } else {
+            shortestPathText = shortestPath.shortestPathSearch(routeRequest.getRouteRequest());
+        }
         if (shortestPathText.startsWith("[")) {
             routeResponse.setShortestPath(shortestPathText);
         } else {
